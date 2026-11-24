@@ -1,6 +1,6 @@
 # Excel｜CSVから2点間の方向別距離を計算する（簡易版）
 
-Ver.2.1 — セル直接参照方式。LET、XMATCH、ヘッダー加工は不要。一般的なExcelで使用可能。
+Ver.2.2 — セル直接参照方式。LET、XMATCH、ヘッダー加工は不要。一般的なExcelで使用可能。
 
 ## 1. 準備
 
@@ -134,5 +134,33 @@ O4：
 - 架空例：初期距離100、点Aの変位-10、点Bの変位-30、両点の初期変位0、点Bが正方向の場合、結果は80。
 
 この式は指定方向の符号付き間隔であり、3次元距離や接触判定ではない。負値を自動で絶対値にしない。
+
+## 7. 一括貼り付け用（各6行×2列）
+
+シート名は CaseA_CSV と CaseB_CSV に統一する。以下は指定のセル配置に対応する数式例。初期距離はG列、初期データは4行目、評価時刻1は7行目、評価時刻2は先頭の点ペアのみ11行目、残りは12行目。点Bが初期状態で正方向にあること、単位が一致することを確認する。負方向の場合は変位差の符号を反転する。
+
+### Case A：H4を選択して下記6行を一括貼り付け
+
+```text
+=$G4+(CaseA_CSV!X7-CaseA_CSV!X4)-(CaseA_CSV!L7-CaseA_CSV!L4)	=$G4+(CaseA_CSV!X11-CaseA_CSV!X4)-(CaseA_CSV!L11-CaseA_CSV!L4)
+=$G5+(CaseA_CSV!Q7-CaseA_CSV!Q4)-(CaseA_CSV!J7-CaseA_CSV!J4)	=$G5+(CaseA_CSV!Q12-CaseA_CSV!Q4)-(CaseA_CSV!J12-CaseA_CSV!J4)
+=$G6+(CaseA_CSV!S7-CaseA_CSV!S4)-(CaseA_CSV!H7-CaseA_CSV!H4)	=$G6+(CaseA_CSV!S12-CaseA_CSV!S4)-(CaseA_CSV!H12-CaseA_CSV!H4)
+=$G7+(CaseA_CSV!T7-CaseA_CSV!T4)-(CaseA_CSV!F7-CaseA_CSV!F4)	=$G7+(CaseA_CSV!T12-CaseA_CSV!T4)-(CaseA_CSV!F12-CaseA_CSV!F4)
+=$G8+(CaseA_CSV!U7-CaseA_CSV!U4)-(CaseA_CSV!D7-CaseA_CSV!D4)	=$G8+(CaseA_CSV!U12-CaseA_CSV!U4)-(CaseA_CSV!D12-CaseA_CSV!D4)
+=$G9+(CaseA_CSV!V7-CaseA_CSV!V4)-(CaseA_CSV!B7-CaseA_CSV!B4)	=$G9+(CaseA_CSV!V12-CaseA_CSV!V4)-(CaseA_CSV!B12-CaseA_CSV!B4)
+```
+
+### Case B：H13を選択して下記6行を一括貼り付け
+
+```text
+=$G13+(CaseB_CSV!N7-CaseB_CSV!N4)-(CaseB_CSV!L7-CaseB_CSV!L4)	=$G13+(CaseB_CSV!N11-CaseB_CSV!N4)-(CaseB_CSV!L11-CaseB_CSV!L4)
+=$G14+(CaseB_CSV!P7-CaseB_CSV!P4)-(CaseB_CSV!J7-CaseB_CSV!J4)	=$G14+(CaseB_CSV!P12-CaseB_CSV!P4)-(CaseB_CSV!J12-CaseB_CSV!J4)
+=$G15+(CaseB_CSV!O7-CaseB_CSV!O4)-(CaseB_CSV!H7-CaseB_CSV!H4)	=$G15+(CaseB_CSV!O12-CaseB_CSV!O4)-(CaseB_CSV!H12-CaseB_CSV!H4)
+=$G16+(CaseB_CSV!Y7-CaseB_CSV!Y4)-(CaseB_CSV!F7-CaseB_CSV!F4)	=$G16+(CaseB_CSV!Y12-CaseB_CSV!Y4)-(CaseB_CSV!F12-CaseB_CSV!F4)
+=$G17+(CaseB_CSV!R7-CaseB_CSV!R4)-(CaseB_CSV!D7-CaseB_CSV!D4)	=$G17+(CaseB_CSV!R12-CaseB_CSV!R4)-(CaseB_CSV!D12-CaseB_CSV!D4)
+=$G18+(CaseB_CSV!W7-CaseB_CSV!W4)-(CaseB_CSV!B7-CaseB_CSV!B4)	=$G18+(CaseB_CSV!W12-CaseB_CSV!W4)-(CaseB_CSV!B12-CaseB_CSV!B4)
+```
+
+各ブロックはタブ区切り。Excelの数式バーではなくセルを選択して貼り付ける。H・I列の旧値を保存してから実行する。貼り付け後に各列の点IDと評価時刻を原データで確認する。実際のシート配置が異なる場合は参照先を変更する。
 
 公開リポジトリには実データ、固有ID、画像、社内ファイルを掲載しない。社内規則に従って使用する。
